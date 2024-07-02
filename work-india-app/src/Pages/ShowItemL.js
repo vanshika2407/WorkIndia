@@ -15,16 +15,20 @@ const fetchHandler = async () => {
 };
 function ShowItemL(props) {
   const [ItemData, setItemS] = useState([]);
+  const [fetchedData, setFetchedData] = useState([]);
   useEffect(() => {
-    fetchHandler().then((data) => setItemS(data));
+    fetchHandler().then((data) => {
+      setFetchedData(data);
+      setItemS(data);
+    });
   }, []);
 
   useEffect(() => {
-    if (props.newI) {
-      setItemS((prevItems) => [...prevItems, ...props.newI]);
+    if (props.newI && props.newI.length > 0) {
+      setItemS([...fetchedData, ...props.newI]);
     }
-  }, [props.newI]);
-  console.log(ItemData);
+  }, [props.newI, fetchedData]);
+
   return (
     <div>
       <HeaderShow />
